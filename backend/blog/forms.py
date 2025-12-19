@@ -69,18 +69,22 @@ class PostForm(forms.ModelForm):
         max_length=100,
         required=True
     )
+
     content = forms.CharField(
         label='Content',
         widget=forms.Textarea,
         required=True
     )
+
     category = forms.ModelChoiceField(
         label='Category',
         queryset=Category.objects.all(),
         required=True
     )
-    img_url = forms.ImageField(
-        label='Image',
+
+    # IMPORTANT — URL FIELD
+    img_url = forms.URLField(
+        label="Image URL",
         required=False
     )
 
@@ -104,14 +108,13 @@ class PostForm(forms.ModelForm):
     def save(self, commit=True):
         post = super().save(commit=False)
 
-        # If image not uploaded, set default image URL
-        if not self.cleaned_data.get('img_url'):
-            post.img_url = (
-                "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
-            )
+        # Default image if empty
+        if not self.cleaned_data.get("img_url"):
+            post.img_url = "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
 
         if commit:
             post.save()
 
         return post
+
 
