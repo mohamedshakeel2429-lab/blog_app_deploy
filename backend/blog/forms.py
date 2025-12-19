@@ -105,16 +105,6 @@ class PostForm(forms.ModelForm):
 
         return cleaned_data
 
-    def save(self, commit=True):
-        post = super().save(commit=False)
-
-        # Default image if empty
-        if not self.cleaned_data.get("img_url"):
-            post.img_url = "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
-
-        if commit:
-            post.save()
-
-        return post
+    
 
 
