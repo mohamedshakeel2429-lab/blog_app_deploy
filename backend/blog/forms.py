@@ -63,6 +63,7 @@ class resetpasswordform(forms.Form):
       
 from django import forms
 from .models import Post, Category
+
 class PostForm(forms.ModelForm):
     title = forms.CharField(label='Title', max_length=100, required=True)
     content = forms.CharField(label='Content', widget=forms.Textarea, required=True)
@@ -90,4 +91,5 @@ class PostForm(forms.ModelForm):
             post.save()
 
         return post
+
 
