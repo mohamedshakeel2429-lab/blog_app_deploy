@@ -15,7 +15,7 @@ class Category(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
-    img_url = models.ImageField(null=True,blank=True,upload_to='post/images/')
+    img_url = models.ImageField(upload_to='posts/', blank=True, null=True, default='default/no_image.png')
     created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True)
     category=models.ForeignKey(Category,on_delete=models.CASCADE)
@@ -32,4 +32,5 @@ class Post(models.Model):
         return url
 
 class Aboutus(models.Model):
+
     content = models.TextField()
