@@ -1,9 +1,0 @@
-Django==5.2.6
-gunicorn
-mysqlclient
-whitenoise
-python-dotenv
-django-cors-headers
-djangorestframework
-requests
-Pillow
