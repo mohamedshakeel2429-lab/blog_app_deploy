@@ -42,7 +42,7 @@ class Post(models.Model):
 
         super().save(*args, **kwargs)
 
-   @property
+@property
 def formatted_img_url(self):
     if not self.img_url:
         return "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
@@ -52,5 +52,6 @@ def formatted_img_url(self):
 # ================= ABOUT US =================
 class Aboutus(models.Model):
     content = models.TextField()
+
 
 
