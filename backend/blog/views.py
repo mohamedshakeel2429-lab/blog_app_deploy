@@ -212,9 +212,8 @@ def new_post(request):
     categories = Category.objects.all()
 
     if request.method == "POST":
-        form = PostForm(request.POST, request.FILES)
+        form = PostForm(request.POST)
         if form.is_valid():
-            post = form.save(commit=False)
             post.user = request.user
             post.save()
             return redirect('blog:dashboard')
@@ -234,7 +233,7 @@ def edit_post(request,post_id):
     form = PostForm(instance=post)
     
     if request.method == "POST":
-        form = PostForm(request.POST, request.FILES, instance=post)
+        form = PostForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
             messages.success(request,'your post has been updated successfully!')  
@@ -260,5 +259,6 @@ def publish_post(request, post_id):
     post.save()
     messages.success(request, 'Your post has been published successfully!')
     return redirect('blog:dashboard')
+
 
     
