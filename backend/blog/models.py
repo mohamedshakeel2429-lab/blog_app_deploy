@@ -17,7 +17,7 @@ class Post(models.Model):
     content = models.TextField()
 
     # IMPORTANT: removed default local file (Cloudinary needs this)
-    img_url = models.ImageField(upload_to='posts/', blank=True, null=True)
+    img_url = models.URLField(max_length=500, blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True)
@@ -58,3 +58,4 @@ class Post(models.Model):
 # ================= ABOUT US =================
 class Aboutus(models.Model):
     content = models.TextField()
+
