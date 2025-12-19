@@ -63,27 +63,11 @@ class resetpasswordform(forms.Form):
       
 from django import forms
 from .models import Post, Category
-
 class PostForm(forms.ModelForm):
-    title = forms.CharField(
-        label='Title',
-        max_length=100,
-        required=True
-    )
-    content = forms.CharField(
-        label='Content',
-        widget=forms.Textarea,
-        required=True
-    )
-    category = forms.ModelChoiceField(
-        label='Category',
-        queryset=Category.objects.all(),
-        required=True
-    )
-    img_url = forms.ImageField(
-        label='Image',
-        required=False
-    )
+    title = forms.CharField(label='Title', max_length=100, required=True)
+    content = forms.CharField(label='Content', widget=forms.Textarea, required=True)
+    category = forms.ModelChoiceField(label='Category', queryset=Category.objects.all(), required=True)
+    img_url = forms.ImageField(label='Image', required=False)
 
     class Meta:
         model = Post
@@ -102,16 +86,8 @@ class PostForm(forms.ModelForm):
 
         return cleaned_data
 
-    def save(self, commit=True):
-        post = super().save(commit=False)
-
-        # If image not uploaded, set default image URL
-        if not self.cleaned_data.get('img_url'):
-            post.img_url = (
-                "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
-            )
-
-        if commit:
+  
             post.save()
 
         return post
+
