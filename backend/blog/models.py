@@ -16,10 +16,12 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
 
-    # IMPORTANT: removed default local file (Cloudinary needs this)
-    img_url = models.URLField(blank=True, null=True,
-    default="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
-)
+    # URL based image (no local / no cloud storage required)
+    img_url = models.URLField(
+        blank=True,
+        null=True,
+        default="https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True)
@@ -28,7 +30,7 @@ class Post(models.Model):
     is_published = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-        # Safer slug handling (prevents duplicate slug crash)
+        # Safe slug generator
         if not self.slug:
             base_slug = slugify(self.title)
             slug = base_slug
@@ -41,20 +43,18 @@ class Post(models.Model):
             self.slug = slug
 
         super().save(*args, **kwargs)
-        
-        
-        
 
     @property
     def formatted_img_url(self):
-         if not self.img_url:
-             return "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
-         return self.img_url
+        if not self.img_url:
+            return "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+        return self.img_url
 
 
 # ================= ABOUT US =================
 class Aboutus(models.Model):
     content = models.TextField()
+
 
 
 
