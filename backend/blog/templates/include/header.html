@@ -1,0 +1,46 @@
+<header class="p-3 bg-dark text-white">
+    <div class="row">
+        <div class="col">
+           <a href="{% url 'blog:index' %}" class="navbar-brand h3 site-title">News letter</a>
+
+        </div>
+        <div class="col">
+            <div class="d-flex justify-content-center gap-3">
+                <a class="text-light text-decoration-none" href="/">Home</a>
+                <a class="text-light text-decoration-none" href="about">About</a>
+                <a class="text-light text-decoration-none" href="contact">Contact</a>
+                {% if user.is_authenticated %}
+                <a class="text-light text-decoration-none" href="{% url 'blog:dashboard' %}">dashboard</a>
+                <a class="text-light text-decoration-none" href="{% url 'blog:logout' %}">logout</a>
+                {%else %}
+                <a class="text-light text-decoration-none" href="{% url 'blog:login'%}">login</a>
+                <a class="text-light text-decoration-none" href="{% url 'blog:register'%}">Register</a>
+                {%endif%}
+            </div>
+        </div>
+    </div>
+</header>
+<style>
+  .site-title,
+.site-title:link,
+.site-title:visited,
+.site-title:hover,
+.site-title:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+  .fixed-card-image {
+      height: 200px;
+      object-fit: cover;
+  }
+
+  .pagination .page-link {
+      color: #007bff;
+  }
+
+  .pagination .page-link:focus {
+      box-shadow: none;
+  }
+  </style>
