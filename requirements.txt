@@ -7,5 +7,7 @@ django-cors-headers
 djangorestframework
 requests
 django-cloudinary-storage
+cloudinary
 
 Pillow
+
