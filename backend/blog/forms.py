@@ -4,6 +4,8 @@ from typing import Required
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib .auth import authenticate
+from django import forms
+from .models import Post, Category
 
 
 class contactform(forms.Form):
@@ -61,31 +63,24 @@ class resetpasswordform(forms.Form):
         if new_password and confirm_password and new_password!=confirm_password:
             raise forms.ValidationError("password do not match")  
       
-from django import forms
-from .models import Post, Category
-
 class PostForm(forms.ModelForm):
     title = forms.CharField(
         label='Title',
         max_length=100,
         required=True
     )
-
     content = forms.CharField(
         label='Content',
         widget=forms.Textarea,
         required=True
     )
-
     category = forms.ModelChoiceField(
         label='Category',
         queryset=Category.objects.all(),
         required=True
     )
-
-    # URL instead of file upload
-    img_url = forms.URLField(
-        label="Image URL",
+    img_url = forms.ImageField(
+        label='Image',
         required=False
     )
 
@@ -109,11 +104,14 @@ class PostForm(forms.ModelForm):
     def save(self, commit=True):
         post = super().save(commit=False)
 
-        # If user did NOT provide image → use default
-        if not self.cleaned_data.get("img_url"):
-            post.img_url = "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+        # If image not uploaded, set default image URL
+        if not self.cleaned_data.get('img_url'):
+            post.img_url = (
+                "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+            )
 
         if commit:
             post.save()
 
         return post
+
