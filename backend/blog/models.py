@@ -3,34 +3,58 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User
 
 
- #creatiing data for catagories
-
+# ================= CATEGORY =================
 class Category(models.Model):
-    name =  models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name 
+        return self.name
 
-# Create your models here.
+
+# ================= POST =================
 class Post(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
-    img_url = models.ImageField(upload_to='posts/', blank=True, null=True, default='default/no_image.png')
+
+    # IMPORTANT: removed default local file (Cloudinary needs this)
+    img_url = models.ImageField(upload_to='posts/', blank=True, null=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True)
-    category=models.ForeignKey(Category,on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     is_published = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        # Safer slug handling (prevents duplicate slug crash)
+        if not self.slug:
+            base_slug = slugify(self.title)
+            slug = base_slug
+            counter = 1
+
+            while Post.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+
+            self.slug = slug
+
         super().save(*args, **kwargs)
-        
-    @property    
+
+    @property
     def formatted_img_url(self):
-        url = self.img_url if str(self.img_url).startswith(('http://','https://')) else self.img_url.url
-        return url
+        """
+        Keeps backward compatibility.
+        If Cloudinary => returns full URL.
+        If no image => returns placeholder.
+        """
+        if self.img_url:
+            try:
+                return self.img_url.url
+            except:
+                return "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+        return "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
 
+
+# ================= ABOUT US =================
 class Aboutus(models.Model):
-
     content = models.TextField()
