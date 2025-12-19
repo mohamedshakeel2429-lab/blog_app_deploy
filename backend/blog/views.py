@@ -214,8 +214,8 @@ def new_post(request):
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
-            post.user = request.user
-            post.save()
+            Post.user = request.user
+            Post.save()
             return redirect('blog:dashboard')
     else:
         form = PostForm()
@@ -262,3 +262,4 @@ def publish_post(request, post_id):
 
 
     
+
