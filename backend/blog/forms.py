@@ -65,10 +65,28 @@ from django import forms
 from .models import Post, Category
 
 class PostForm(forms.ModelForm):
-    title = forms.CharField(label='Title', max_length=100, required=True)
-    content = forms.CharField(label='Content', widget=forms.Textarea, required=True)
-    category = forms.ModelChoiceField(label='Category', queryset=Category.objects.all(), required=True)
-    img_url = forms.ImageField(label='Image', required=False)
+    title = forms.CharField(
+        label='Title',
+        max_length=100,
+        required=True
+    )
+
+    content = forms.CharField(
+        label='Content',
+        widget=forms.Textarea,
+        required=True
+    )
+
+    category = forms.ModelChoiceField(
+        label='Category',
+        queryset=Category.objects.all(),
+        required=True
+    )
+
+    img_url = forms.ImageField(
+        label='Image',
+        required=False
+    )
 
     class Meta:
         model = Post
@@ -86,10 +104,3 @@ class PostForm(forms.ModelForm):
             self.add_error('content', 'Content must contain at least 10 characters.')
 
         return cleaned_data
-
-  
-            post.save()
-
-        return post
-
-
