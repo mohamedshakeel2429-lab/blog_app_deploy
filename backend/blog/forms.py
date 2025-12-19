@@ -82,11 +82,12 @@ class PostForm(forms.ModelForm):
         queryset=Category.objects.all(),
         required=True
     )
+
+    # URL instead of file upload
     img_url = forms.URLField(
         label="Image URL",
         required=False
     )
-
 
     class Meta:
         model = Post
@@ -105,3 +106,14 @@ class PostForm(forms.ModelForm):
 
         return cleaned_data
 
+    def save(self, commit=True):
+        post = super().save(commit=False)
+
+        # If user did NOT provide image → use default
+        if not self.cleaned_data.get("img_url"):
+            post.img_url = "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+
+        if commit:
+            post.save()
+
+        return post
