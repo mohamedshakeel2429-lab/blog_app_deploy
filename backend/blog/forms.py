@@ -82,11 +82,11 @@ class PostForm(forms.ModelForm):
         queryset=Category.objects.all(),
         required=True
     )
-
-    img_url = forms.ImageField(
-        label='Image',
+    img_url = forms.URLField(
+        label="Image URL",
         required=False
     )
+
 
     class Meta:
         model = Post
@@ -104,3 +104,4 @@ class PostForm(forms.ModelForm):
             self.add_error('content', 'Content must contain at least 10 characters.')
 
         return cleaned_data
+
