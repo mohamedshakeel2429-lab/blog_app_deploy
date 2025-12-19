@@ -42,9 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog'
+    'blog',
+    'cloudinary',
+    'cloudinary_storage',
     
 ]
+
 
 
 
@@ -180,6 +183,10 @@ EMAIL_USE_TLS=True
 EMAIL_HOST_USER='68e7c151522763'
 EMAIL_HOST_PASSWORD='af00c755f4d790'
 
-MEDIA_URL='/media/'
-MEDIA_ROOT= os.path.join(BASE_DIR,'media')
-LOGIN_URL = '/login'
+CLOUDINARY_STORAGE = {
+    'CLOUDINARY_URL': os.getenv('CLOUDINARY_URL')
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+MEDIA_URL = '/media/'
