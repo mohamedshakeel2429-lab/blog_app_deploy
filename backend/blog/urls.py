@@ -18,6 +18,8 @@ urlpatterns = [
     path('edit_post/<post_id>',views.edit_post,name="edit_post"),
     path('delete_post/<post_id>',views.delete_post,name="delete_post"),
     path('publish_post/<post_id>',views.publish_post,name="publish_post"),
+    path('health',views.health,name='health'),
     
      
+
 ]
