@@ -4,7 +4,7 @@ from blog.models import Category
 from django.shortcuts import render,redirect
 import logging
 from .models import Post,Aboutus,Category
-from django.http import Http404
+from django.http import Http404,HttpResponse
 from django.core.paginator import Paginator
 from .forms import Forgotpasswordform, contactform,Registerform,Loginform,resetpasswordform,PostForm
 from django.contrib import messages
@@ -261,7 +261,11 @@ def publish_post(request, post_id):
     messages.success(request, 'Your post has been published successfully!')
     return redirect('blog:dashboard')
 
+def health(request):
+    return HttpResponse("OK")
+
 
     
+
 
 
